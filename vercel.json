@@ -3,5 +3,6 @@
     "env": {
       "CLEAN_CACHE": "true"
     }
-  }
+  },
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
