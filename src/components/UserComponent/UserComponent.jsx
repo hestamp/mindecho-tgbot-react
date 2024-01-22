@@ -58,12 +58,14 @@ const UserComponent = () => {
         })
       }
 
-      bg_color = tg.ThemeParams.bg_color
-      text_color = tg.ThemeParams.text_color
-      hint_color = tg.ThemeParams.hint_color
-      link_color = tg.ThemeParams.link_color
-      button_color = tg.ThemeParams.button_color
-      button_text_colorString = tg.ThemeParams.button_text_colorString
+      if (tg.ThemeParams) {
+        bg_color = tg.ThemeParams.bg_color
+        text_color = tg.ThemeParams.text_color
+        hint_color = tg.ThemeParams.hint_color
+        link_color = tg.ThemeParams.link_color
+        button_color = tg.ThemeParams.button_color
+        button_text_colorString = tg.ThemeParams.button_text_colorString
+      }
 
       tg.onEvent('mainButtonClicked', () => {
         tg.sendData('some string that we need to send')
