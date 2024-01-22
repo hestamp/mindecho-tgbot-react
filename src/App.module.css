@@ -5,6 +5,8 @@
   position: fixed;
   background-color: var(--bgColor);
   color: var(--textColor);
+  background-color: var(--tg-theme-bg-color);
+  color: var(--tg-theme-text-color);
 }
 
 .appBlock {
@@ -33,6 +35,9 @@
 
 .taskblock {
   display: flex;
+  max-height: 40vh;
+  overflow-x: hidden;
+  overflow-y: auto;
   flex-direction: column;
   gap: 0.5rem;
 }
@@ -41,6 +46,7 @@
   width: calc(100% - 1rem);
   border: 1px solid lightgray;
   padding: 0.5rem;
+  background-color: lightgray;
   justify-content: space-between;
   display: flex;
   flex-direction: row;
@@ -49,10 +55,15 @@
 
 .addbutt {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   /* border: 1px solid gray; */
-  width: fit-content;
+  width: 100%;
+  min-width: 100%;
+  font-size: 18px;
+  font-weight: 500;
+  gap: 0.5rem;
   padding: 6px;
+  justify-content: center;
   align-self: center;
   border-radius: 5px;
   background-color: var(--maincolor);
@@ -62,4 +73,21 @@
 .addbutt svg {
   width: 24px;
   height: 24px;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.input {
+  width: calc(100% - 12px);
+  padding: 6px;
+  border-radius: 5px;
+  outline: none;
+  font-weight: 500;
+  font-size: 18px;
+  border: 1px solid lightgray;
 }

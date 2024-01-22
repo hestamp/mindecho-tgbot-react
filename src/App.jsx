@@ -27,11 +27,18 @@ function App() {
     <div className={styles.modal}>
       <input
         autoFocus
+        className={styles.input}
         value={newTaskName}
         onChange={(e) => setNewTaskName(e.target.value)}
         placeholder="Enter task name"
       />
-      <button onClick={handleAddTask}>Add Task</button>
+      <button onClick={handleAddTask} className={styles.addbutt}>
+        <span> Add</span>
+        <span>
+          {' '}
+          <MdAdd />
+        </span>
+      </button>
     </div>
   )
 
@@ -52,20 +59,10 @@ function App() {
     <div className={styles.App}>
       <div className={styles.appBlock}>
         <div className={styles.mainpage}>
-          <UserComponent />
+          {/* <UserComponent /> */}
+
           <div className={styles.miniblock}>
-            <h2>MindCalendar</h2>
-            <MyCalendar
-              maxPlus={maxDate}
-              valueDate={selectedDate}
-              setDate={setSelectedDate}
-              format="dd-MM-yyyy"
-              sunOrMon="iso8601"
-              startDate={new Date()}
-            />
-          </div>
-          <div className={styles.miniblock}>
-            <h2>MindTask</h2>
+            <h2>MyEchoes</h2>
             <div className={styles.taskblock}>
               {taskArr.map((item, index) => (
                 <div className={styles.minitask} key={index}>
@@ -74,14 +71,27 @@ function App() {
                 </div>
               ))}
             </div>
-            <div
-              onClick={() => setIsModalOpen(true)}
-              className={styles.addbutt}
-            >
-              <MdAdd />
-            </div>
+            {!isModalOpen && (
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className={styles.addbutt}
+              >
+                <span> Add task</span>
+              </button>
+            )}
           </div>
           {isModalOpen && renderModal()}
+          <div className={styles.miniblock}>
+            <h2>MindCalendar</h2>
+            <MyCalendar
+              // maxPlus={maxDate}
+              valueDate={selectedDate}
+              setDate={setSelectedDate}
+              format="dd-MM-yyyy"
+              sunOrMon="iso8601"
+              startDate={new Date()}
+            />
+          </div>
         </div>
       </div>
     </div>

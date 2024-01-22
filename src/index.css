@@ -25,6 +25,11 @@
   --shadowMin: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
+:root {
+  background-color: var(--tg-theme-bg-color);
+  color: var(--tg-theme-text-color);
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -47,7 +52,7 @@ body {
 
 body {
   color: var(--tg-theme-text-color);
-  background: var(--tg-theme-bg-color);
+  background-color: var(--tg-theme-bg-color);
 }
 
 h4,
