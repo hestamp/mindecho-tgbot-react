@@ -152,7 +152,7 @@ function App() {
     <div className={styles.App}>
       <div className={styles.appBlock}>
         <div className={styles.mainpage}>
-          {/* <UserComponent /> */}
+          <UserComponent />
 
           <div className={styles.miniblock}>
             <h3>My Echoes</h3>

@@ -64,6 +64,7 @@ const UserComponent = () => {
           <div className={styles.usercard}>
             <p>{`${userData.firstName} ${userData.lastName} ${userData.username} (${userData.languageCode})`}</p>
             <p>{userData.userId}</p>
+            <p>{telegram.initDataUnsafe?.query_id}</p>
           </div>
           <p>Just text</p>
           <a className={styles.link} href="https://hestamp.com">

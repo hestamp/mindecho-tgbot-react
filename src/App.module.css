@@ -53,13 +53,13 @@
 .taskItem {
   /* Style for each task item */
   padding: 10px;
-  background-color: white;
+  /* background-color: white; */
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 .minitask {
   width: calc(100% - 22px);
-  background-color: white;
+  /* background-color: white; */
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
