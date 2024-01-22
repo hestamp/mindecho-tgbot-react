@@ -59,6 +59,12 @@ function App() {
   const [maxDate, setMaxDate] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState(new Date())
 
+  const formatDate = (date) => {
+    const day = date.getDate()
+    const month = date.toLocaleString('default', { month: 'long' })
+    return `${day} ${month}`
+  }
+
   const renderModal = () => (
     <div className={styles.modal}>
       <input
@@ -129,9 +135,9 @@ function App() {
             {taskArr[taskArr.length - 1 - activeTask].dates.map(
               (date, index) => (
                 <div key={index} className={styles.minitask}>
+                  <h4>{index + 1}</h4>
                   <h4> {new Date(date).toLocaleDateString()} </h4>
                   {/* Adjust date format as needed */}
-                  <h4>{index + 1}</h4>
                 </div>
               )
             )}
@@ -145,7 +151,10 @@ function App() {
   const tasksForSelectedDate = useMemo(() => {
     const selectedDateString = selectedDate.toISOString().split('T')[0]
     return taskArr.filter((task) =>
-      task.dates.some((d) => d.split('T')[0] === selectedDateString)
+      task.dates.some((dateString) => {
+        const date = new Date(dateString)
+        return date.toISOString().split('T')[0] === selectedDateString
+      })
     )
   }, [selectedDate, taskArr])
   return (
@@ -156,28 +165,30 @@ function App() {
 
           <div className={styles.miniblock}>
             <h3>My Echoes</h3>
-            {!isModalOpen && (
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className={styles.addbutt}
-              >
-                <span> Add echo</span>
-              </button>
-            )}
-            {isModalOpen && renderModal()}
-            <div className={styles.taskblock}>
-              {[...taskArr].reverse().map((item, index) => (
-                <div
-                  onClick={() => goActiveTask(index)}
-                  className={`${styles.minitask} ${
-                    activeTask == index && styles.activetask
-                  }`}
-                  key={index}
+            <div className={styles.paddingblock}>
+              {!isModalOpen && (
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className={styles.addbutt}
                 >
-                  <h4 className={styles.textecho}>{item.name}</h4>
-                  <h4>{item.lvl.toString()}</h4>
-                </div>
-              ))}
+                  <span> Create echo</span>
+                </button>
+              )}
+              {isModalOpen && renderModal()}
+              <div className={styles.taskblock}>
+                {[...taskArr].reverse().map((item, index) => (
+                  <div
+                    onClick={() => goActiveTask(index)}
+                    className={`${styles.minitask} ${
+                      activeTask == index && styles.activetask
+                    }`}
+                    key={index}
+                  >
+                    <h4 className={styles.textecho}>{item.name}</h4>
+                    <h4>{item.lvl.toString()}</h4>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -205,7 +216,7 @@ function App() {
 
             {tasksForSelectedDate.length && modeNow == 'date' ? (
               <div className={styles.taskListForDate}>
-                <h3>Tasks for Selected Date</h3>
+                <h3>Tasks for {formatDate(selectedDate)}</h3>
                 {tasksForSelectedDate.map((task, index) => (
                   <div key={index} className={styles.taskItem}>
                     <h4>{task.name}</h4>

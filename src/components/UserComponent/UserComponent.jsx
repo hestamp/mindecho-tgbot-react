@@ -7,6 +7,13 @@ const UserComponent = () => {
   const [mainButtonVisible, setMainButtonVisible] = useState(true)
   const [mainButtonActive, setMainButtonActive] = useState(true)
 
+  let bg_color = 'white'
+  let text_color = 'white'
+  let hint_color = 'white'
+  let link_color = 'white'
+  let button_color = 'white'
+  let button_text_colorString = 'white'
+
   const toggleMainButtonVisibility = () => {
     if (mainButtonVisible) {
       telegram.MainButton.hide()
@@ -51,6 +58,13 @@ const UserComponent = () => {
         })
       }
 
+      bg_color = tg.ThemeParams.bg_color
+      text_color = tg.ThemeParams.text_color
+      hint_color = tg.ThemeParams.hint_color
+      link_color = tg.ThemeParams.link_color
+      button_color = tg.ThemeParams.button_color
+      button_text_colorString = tg.ThemeParams.button_text_colorString
+
       tg.onEvent('mainButtonClicked', () => {
         tg.sendData('some string that we need to send')
       })
@@ -85,6 +99,64 @@ const UserComponent = () => {
           >
             Enable/Disable Main Button
           </button>
+          <div>
+            <h3>Color palette</h3>
+            <div
+              style={{
+                width: '30px',
+                height: '30px',
+                backgroundColor: bg_color,
+              }}
+            >
+              bg_color {bg_color}
+            </div>
+
+            <div
+              style={{
+                width: '30px',
+                height: '30px',
+                backgroundColor: text_color,
+              }}
+            >
+              text_color {text_color}
+            </div>
+            <div
+              style={{
+                width: '30px',
+                height: '30px',
+                backgroundColor: hint_color,
+              }}
+            >
+              hint_color {hint_color}
+            </div>
+            <div
+              style={{
+                width: '30px',
+                height: '30px',
+                backgroundColor: link_color,
+              }}
+            >
+              link_color {link_color}
+            </div>
+            <div
+              style={{
+                width: '30px',
+                height: '30px',
+                backgroundColor: button_color,
+              }}
+            >
+              button_color {button_color}
+            </div>
+            <div
+              style={{
+                width: '30px',
+                height: '30px',
+                backgroundColor: button_text_colorString,
+              }}
+            >
+              button_text_colorString {button_text_colorString}
+            </div>
+          </div>
         </div>
       )}
     </>
