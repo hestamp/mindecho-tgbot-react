@@ -24,7 +24,7 @@
   display: flex;
   flex-direction: column;
   margin-top: 1rem;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .miniblock {
@@ -42,15 +42,46 @@
   gap: 0.5rem;
 }
 
+.taskListForDate {
+  /* Style for the container */
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.taskItem {
+  /* Style for each task item */
+  padding: 10px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
 .minitask {
-  width: calc(100% - 1rem);
-  border: 1px solid lightgray;
-  padding: 0.5rem;
-  background-color: lightgray;
+  width: calc(100% - 22px);
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  font-weight: 400;
+
   justify-content: space-between;
   display: flex;
   flex-direction: row;
-  border-radius: 10px;
+  border-radius: 5px;
+}
+
+.activetask {
+  border: 1px solid var(--maincolor);
+  background-color: gray;
+  color: white;
+}
+.activetask h4 {
+  font-weight: 500;
+}
+
+.textecho {
+  font-weight: 400;
 }
 
 .addbutt {
@@ -59,10 +90,10 @@
   /* border: 1px solid gray; */
   width: 100%;
   min-width: 100%;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   gap: 0.5rem;
-  padding: 6px;
+  padding: 8px;
   justify-content: center;
   align-self: center;
   border-radius: 5px;
@@ -83,11 +114,15 @@
 }
 
 .input {
-  width: calc(100% - 12px);
+  width: calc(100% - 14px);
   padding: 6px;
   border-radius: 5px;
   outline: none;
   font-weight: 500;
+  color: black;
+  color: var(--tg-theme-text-color);
+  background-color: var(--bgColor);
+  background-color: var(--tg-theme-bg-color);
   font-size: 18px;
   border: 1px solid lightgray;
 }

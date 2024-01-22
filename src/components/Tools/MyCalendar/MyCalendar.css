@@ -131,6 +131,10 @@
   background: var(--maincolor);
 }
 
+.highlighted-date {
+  background-color: var(--maincolor);
+}
+
 .react-calendar__tile--hasActive {
   background: var(--maincolor);
   color: white;

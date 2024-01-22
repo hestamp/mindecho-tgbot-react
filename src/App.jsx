@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import styles from './App.module.css'
 
@@ -8,9 +8,42 @@ import { MdAdd } from 'react-icons/md'
 import UserComponent from './components/UserComponent/UserComponent'
 
 const taskArr1 = [
-  { name: 'PC instruction', lvl: 1 },
-  { name: 'How to read right', lvl: 3 },
-  { name: 'Unleash your brain', lvl: 4 },
+  {
+    name: 'Insruction to my brain',
+    lvl: 1,
+    dates: [
+      '2024-01-22T15:46:58.602Z',
+      '2024-01-23T15:46:58.602Z',
+      '2024-01-27T15:46:58.602Z',
+      '2024-02-06T15:46:58.602Z',
+      '2024-02-21T15:46:58.602Z',
+      '2024-03-22T15:46:58.602Z',
+    ],
+  },
+  {
+    name: 'How to cook muffin',
+    lvl: 3,
+    dates: [
+      '2024-01-22T15:46:58.602Z',
+      '2024-01-23T15:46:58.602Z',
+      '2024-01-27T15:46:58.602Z',
+      '2024-02-06T15:46:58.602Z',
+      '2024-02-21T15:46:58.602Z',
+      '2024-03-22T15:46:58.602Z',
+    ],
+  },
+  {
+    name: 'Object in JS',
+    lvl: 5,
+    dates: [
+      '2024-01-22T15:46:58.602Z',
+      '2024-01-23T15:46:58.602Z',
+      '2024-01-27T15:46:58.602Z',
+      '2024-02-06T15:46:58.602Z',
+      '2024-02-21T15:46:58.602Z',
+      '2024-03-22T15:46:58.602Z',
+    ],
+  },
 ]
 
 function App() {
@@ -19,6 +52,9 @@ function App() {
   // New states for modal visibility and input value
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [newTaskName, setNewTaskName] = useState('')
+  const [activeTask, setActiveTask] = useState(null)
+
+  const [modeNow, setModeNow] = useState(null)
 
   const [maxDate, setMaxDate] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState(new Date())
@@ -30,22 +66,33 @@ function App() {
         className={styles.input}
         value={newTaskName}
         onChange={(e) => setNewTaskName(e.target.value)}
-        placeholder="Enter task name"
+        placeholder="Enter your echo"
       />
       <button onClick={handleAddTask} className={styles.addbutt}>
         <span> Add</span>
-        <span>
-          {' '}
-          <MdAdd />
-        </span>
       </button>
     </div>
   )
 
   const handleAddTask = () => {
-    setTaskArr([...taskArr, { name: newTaskName, lvl: 1 }])
-    setNewTaskName('') // Reset the input field
-    setIsModalOpen(false) // Close the modal
+    const currentDate = new Date()
+    const intervals = [0, 1, 5, 15, 30, 60] // Intervals in days
+
+    // Map intervals to date objects
+    const dates = intervals.map((interval) => {
+      const date = new Date(currentDate)
+      date.setDate(currentDate.getDate() + interval)
+      return date // Storing as Date objects
+    })
+
+    // Add the new task with the dates array
+    const newTask = { name: newTaskName, lvl: 1, dates }
+    console.log(newTask)
+    setTaskArr([...taskArr, newTask])
+
+    // Resetting input field and modal state
+    setNewTaskName('')
+    setIsModalOpen(false)
   }
 
   useEffect(() => {
@@ -55,6 +102,52 @@ function App() {
     setMaxDate(maxDate)
   }, [])
 
+  const [activeTaskDates, setActiveTaskDates] = useState([])
+
+  const goActiveTask = (index) => {
+    if (index === activeTask) {
+      setActiveTask(null)
+      // setModeNow(null)
+      setActiveTaskDates([]) // Clear dates when deselecting
+    } else {
+      setActiveTask(index)
+      setModeNow('object')
+      setActiveTaskDates(taskArr[taskArr.length - 1 - index].dates) // Store dates of the selected task
+    }
+  }
+
+  const activeDateFunc = () => {
+    setModeNow('date')
+  }
+
+  const renderDatesBlock = () => {
+    if (activeTask != null) {
+      return (
+        <div className={styles.miniblock}>
+          <h3>Echo Plan for {taskArr[taskArr.length - 1 - activeTask].name}</h3>
+          <div className={styles.taskblock}>
+            {taskArr[taskArr.length - 1 - activeTask].dates.map(
+              (date, index) => (
+                <div key={index} className={styles.minitask}>
+                  <h4> {new Date(date).toLocaleDateString()} </h4>
+                  {/* Adjust date format as needed */}
+                  <h4>{index + 1}</h4>
+                </div>
+              )
+            )}
+          </div>
+        </div>
+      )
+    }
+    return null
+  }
+
+  const tasksForSelectedDate = useMemo(() => {
+    const selectedDateString = selectedDate.toISOString().split('T')[0]
+    return taskArr.filter((task) =>
+      task.dates.some((d) => d.split('T')[0] === selectedDateString)
+    )
+  }, [selectedDate, taskArr])
   return (
     <div className={styles.App}>
       <div className={styles.appBlock}>
@@ -62,35 +155,67 @@ function App() {
           {/* <UserComponent /> */}
 
           <div className={styles.miniblock}>
-            <h2>MyEchoes</h2>
-            <div className={styles.taskblock}>
-              {taskArr.map((item, index) => (
-                <div className={styles.minitask} key={index}>
-                  <h3>{item.name}</h3>
-                  <h4>{item.lvl.toString()}</h4>
-                </div>
-              ))}
-            </div>
+            <h3>My Echoes</h3>
             {!isModalOpen && (
               <button
                 onClick={() => setIsModalOpen(true)}
                 className={styles.addbutt}
               >
-                <span> Add task</span>
+                <span> Add echo</span>
               </button>
             )}
+            {isModalOpen && renderModal()}
+            <div className={styles.taskblock}>
+              {[...taskArr].reverse().map((item, index) => (
+                <div
+                  onClick={() => goActiveTask(index)}
+                  className={`${styles.minitask} ${
+                    activeTask == index && styles.activetask
+                  }`}
+                  key={index}
+                >
+                  <h4 className={styles.textecho}>{item.name}</h4>
+                  <h4>{item.lvl.toString()}</h4>
+                </div>
+              ))}
+            </div>
           </div>
-          {isModalOpen && renderModal()}
+
           <div className={styles.miniblock}>
-            <h2>MindCalendar</h2>
+            <h3>Echoes Calendar</h3>
             <MyCalendar
               // maxPlus={maxDate}
               valueDate={selectedDate}
               setDate={setSelectedDate}
               format="dd-MM-yyyy"
               sunOrMon="iso8601"
+              activeTask={activeDateFunc}
               startDate={new Date()}
+              highlightDates={activeTask != null ? activeTaskDates : null}
             />
+          </div>
+          <div className={styles.miniblock}>
+            {modeNow == 'object' ? (
+              <>
+                {renderDatesBlock()} {/* Render the dates block */}
+              </>
+            ) : (
+              <></>
+            )}
+
+            {tasksForSelectedDate.length && modeNow == 'date' ? (
+              <div className={styles.taskListForDate}>
+                <h3>Tasks for Selected Date</h3>
+                {tasksForSelectedDate.map((task, index) => (
+                  <div key={index} className={styles.taskItem}>
+                    <h4>{task.name}</h4>
+                    <p>Level: {task.lvl}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </div>
