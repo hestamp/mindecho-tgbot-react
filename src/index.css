@@ -17,7 +17,7 @@
   --showbox: none;
   --borderColor: #bebebe60;
   --border: lightgray;
-  --minimalShadow: 0 0px 1px 0 #66666666;
+
   --bgSide: #f7f7f7;
   --bgHover: #eeeeee;
   --pBlack: #202020;
@@ -37,10 +37,10 @@
   --link-color: var(--tg-theme-link-color, #6fa1bffc);
 
   --button-color: #6fa1bffc;
-  --button-color: var(--tg-theme-button-color, #6fa1bffc);
+  /* --button-color: var(--tg-theme-button-color, #6fa1bffc); */
 
   --button-text-color: #fbfbfb;
-  --button-text-color: var(--tg-theme-button-text-color, #fbfbfb;);
+  /* --button-text-color: var(--tg-theme-button-text-color, #fbfbfb;); */
 }
 
 :root {

@@ -2,8 +2,8 @@
   width: 100%;
   max-width: 100%;
   background-color: var(--bgColor);
-  border-bottom: 1px solid var(--borderColor);
-  border-top: 1px solid var(--borderColor);
+  border-bottom: 1px solid var(--hint-color);
+  border-top: 1px solid var(--hint-color);
   font-family: inherit;
   font-size: 16px;
   font-weight: 400;
@@ -48,7 +48,7 @@
   background-color: var(--bgColor);
   color: black;
   font-weight: 500;
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid var(--hint-color);
   height: 33px;
 }
 
@@ -73,9 +73,10 @@
 
 .react-calendar__month-view__weekdays {
   text-align: center;
-  background-color: slategray;
-  border-bottom: 1px solid var(--borderColor);
-  color: white;
+  background-color: var(--hint-color);
+
+  border-bottom: 1px solid var(--hint-color);
+  color: black;
 }
 
 .react-calendar__month-view__weekdays__weekday {
@@ -87,6 +88,19 @@
   align-items: center;
   justify-content: center;
   font-weight: bold;
+}
+
+.react-calendar__month-view__days__day {
+  width: 14%;
+  max-width: 100px;
+  max-height: 100px;
+
+  height: 14vw;
+  background: none;
+  text-align: center;
+  color: black;
+  border-radius: 5px;
+  background-color: white;
 }
 
 .react-calendar__month-view__days__day--weekend {
@@ -104,14 +118,14 @@
 }
 
 .react-calendar__tile {
-  width: 14%;
-  max-width: 100px;
-  max-height: 100px;
-
-  height: 14vw;
   background: none;
   text-align: center;
+  transition: 0.3s ease all;
   color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   border-radius: 5px;
   background-color: white;
 }
@@ -129,11 +143,11 @@
 }
 
 .react-calendar__tile--now {
-  background-color: gray;
+  background-color: var(--hint-color);
 }
 
 .waves {
-  color: slategray;
+  color: var(--maincolor);
 }
 
 .react-calendar__tile--now:enabled:hover,
@@ -143,7 +157,12 @@
 
 .highlighted-date {
   color: white;
+
   background-color: var(--maincolor);
+}
+
+.highlighted-date span {
+  color: white;
 }
 
 .react-calendar__tile--hasActive {
@@ -157,14 +176,14 @@
 }
 
 .react-calendar__tile--active {
-  background-color: slategray;
-
-  color: white;
+  background-color: lightgray;
+  color: black;
 }
 
 .react-calendar__tile--active:enabled:hover,
 .react-calendar__tile--active:enabled:focus {
-  background: slategray;
+  background-color: lightgray;
+  color: black;
 }
 
 .react-calendar--selectRange .react-calendar__tile--hover {

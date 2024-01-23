@@ -23,7 +23,8 @@
 
 .colorpaletter {
   width: 100%;
-  border: 1px solid gray;
+  border-bottom: 1px solid gray;
+  border-top: 1px solid gray;
   display: flex;
   flex-direction: column;
   gap: 1rem;

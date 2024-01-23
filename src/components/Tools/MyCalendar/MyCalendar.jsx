@@ -90,14 +90,13 @@ const MyCalendar = ({
     setDate(date)
   }
 
-  // Custom tile content
   const renderTileContent = ({ date, view }) => {
     if (view === 'month' && dateHasTasks(date)) {
       return (
-        <div className="waves">
+        <span className="waves">
           <LuWaves />
-        </div>
-      ) // Red dot
+        </span>
+      )
     }
   }
 

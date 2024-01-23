@@ -7,13 +7,6 @@ const UserComponent = () => {
   const [mainButtonVisible, setMainButtonVisible] = useState(true)
   const [mainButtonActive, setMainButtonActive] = useState(true)
 
-  let bg_color = 'white'
-  let text_color = 'white'
-  let hint_color = 'white'
-  let link_color = 'white'
-  let button_color = 'white'
-  let button_text_colorString = 'white'
-
   const toggleMainButtonVisibility = () => {
     if (mainButtonVisible) {
       telegram.MainButton.hide()
@@ -58,15 +51,6 @@ const UserComponent = () => {
         })
       }
 
-      if (tg.ThemeParams) {
-        bg_color = tg.ThemeParams.bg_color
-        text_color = tg.ThemeParams.text_color
-        hint_color = tg.ThemeParams.hint_color
-        link_color = tg.ThemeParams.link_color
-        button_color = tg.ThemeParams.button_color
-        button_text_colorString = tg.ThemeParams.button_text_colorString
-      }
-
       tg.onEvent('mainButtonClicked', () => {
         tg.sendData('some string that we need to send')
       })
@@ -101,7 +85,7 @@ const UserComponent = () => {
           >
             Enable/Disable Main Button
           </button>
-          <div className={styles.colorpaletter}>
+          {/* <div className={styles.colorpaletter}>
             <h3>Color palette</h3>
             <button className={styles.bg_color}>--bg-color</button>
             <button className={styles.text_color}>--text-color</button>
@@ -111,7 +95,7 @@ const UserComponent = () => {
             <button className={styles.button_text_color}>
               --button-text-color
             </button>
-          </div>
+          </div> */}
         </div>
       )}
     </>
