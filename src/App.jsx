@@ -130,7 +130,9 @@ function App() {
     if (activeTask != null) {
       return (
         <div className={styles.miniblock}>
-          <h3>Echo Plan for {taskArr[taskArr.length - 1 - activeTask].name}</h3>
+          <h3>
+            Echo Levels for {taskArr[taskArr.length - 1 - activeTask].name}
+          </h3>
           <div className={styles.taskblock}>
             {taskArr[taskArr.length - 1 - activeTask].dates.map(
               (date, index) => (

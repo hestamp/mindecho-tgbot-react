@@ -73,7 +73,8 @@
 
 .react-calendar__month-view__weekdays {
   text-align: center;
-  background-color: gray;
+  background-color: slategray;
+  border-bottom: 1px solid var(--borderColor);
   color: white;
 }
 
@@ -103,11 +104,15 @@
 }
 
 .react-calendar__tile {
-  max-width: 100%;
-  padding: 10px 6.6667px;
+  width: 14%;
+  max-width: 100px;
+  max-height: 100px;
+
+  height: 14vw;
   background: none;
   text-align: center;
   color: black;
+  border-radius: 5px;
   background-color: white;
 }
 
@@ -124,30 +129,35 @@
 }
 
 .react-calendar__tile--now {
-  background: gray;
+  background-color: gray;
+}
+
+.waves {
+  color: slategray;
 }
 
 .react-calendar__tile--now:enabled:hover,
 .react-calendar__tile--now:enabled:focus {
-  background: var(--maincolor);
+  background-color: var(--maincolor);
 }
 
 .highlighted-date {
+  color: white;
   background-color: var(--maincolor);
 }
 
 .react-calendar__tile--hasActive {
-  background: var(--maincolor);
+  background-color: var(--maincolor);
   color: white;
 }
 
 .react-calendar__tile--hasActive:enabled:hover,
 .react-calendar__tile--hasActive:enabled:focus {
-  background: slategray;
+  background-color: slategray;
 }
 
 .react-calendar__tile--active {
-  background: var(--maincolor);
+  background-color: slategray;
 
   color: white;
 }

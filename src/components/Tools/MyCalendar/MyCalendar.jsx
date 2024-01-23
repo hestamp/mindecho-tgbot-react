@@ -94,7 +94,7 @@ const MyCalendar = ({
   const renderTileContent = ({ date, view }) => {
     if (view === 'month' && dateHasTasks(date)) {
       return (
-        <div style={{ color: 'skyblue' }}>
+        <div className="waves">
           <LuWaves />
         </div>
       ) // Red dot
