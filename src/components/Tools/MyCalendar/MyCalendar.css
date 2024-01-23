@@ -1,7 +1,7 @@
 .react-calendar {
   width: 100%;
   max-width: 100%;
-
+  background-color: var(--bgColor);
   border-bottom: 1px solid var(--borderColor);
   border-top: 1px solid var(--borderColor);
   font-family: inherit;

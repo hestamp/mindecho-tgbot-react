@@ -101,63 +101,16 @@ const UserComponent = () => {
           >
             Enable/Disable Main Button
           </button>
-          <div>
+          <div className={styles.colorpaletter}>
             <h3>Color palette</h3>
-            <div
-              style={{
-                width: '30px',
-                height: '30px',
-                backgroundColor: bg_color,
-              }}
-            >
-              bg_color {bg_color}
-            </div>
-
-            <div
-              style={{
-                width: '30px',
-                height: '30px',
-                backgroundColor: text_color,
-              }}
-            >
-              text_color {text_color}
-            </div>
-            <div
-              style={{
-                width: '30px',
-                height: '30px',
-                backgroundColor: hint_color,
-              }}
-            >
-              hint_color {hint_color}
-            </div>
-            <div
-              style={{
-                width: '30px',
-                height: '30px',
-                backgroundColor: link_color,
-              }}
-            >
-              link_color {link_color}
-            </div>
-            <div
-              style={{
-                width: '30px',
-                height: '30px',
-                backgroundColor: button_color,
-              }}
-            >
-              button_color {button_color}
-            </div>
-            <div
-              style={{
-                width: '30px',
-                height: '30px',
-                backgroundColor: button_text_colorString,
-              }}
-            >
-              button_text_colorString {button_text_colorString}
-            </div>
+            <button className={styles.bg_color}>--bg-color</button>
+            <button className={styles.text_color}>--text-color</button>
+            <button className={styles.hint_color}>--hint-color</button>
+            <button className={styles.link_color}>--link-color</button>
+            <button className={styles.button_color}>--button-color</button>
+            <button className={styles.button_text_color}>
+              --button-text-color
+            </button>
           </div>
         </div>
       )}

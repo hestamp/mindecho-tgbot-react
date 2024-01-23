@@ -3,7 +3,6 @@
 :root {
   margin: 0;
   padding: 0;
-
   background-color: #fdfdfd;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -23,11 +22,30 @@
   --bgHover: #eeeeee;
   --pBlack: #202020;
   --shadowMin: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+
+  /*TG theme colors*/
+  --bg-color: #fbfbfb;
+  --bg-color: var(--tg-theme-bg-color, #fbfbfb);
+
+  --text-color: #202020;
+  --text-color: var(--tg-theme-text-color, , #202020);
+
+  --hint-color: #bebebe60;
+  --hint-color: var(--tg-theme-hint-color, #bebebe60);
+
+  --link-color: #6fa1bffc;
+  --link-color: var(--tg-theme-link-color, #6fa1bffc);
+
+  --button-color: #6fa1bffc;
+  --button-color: var(--tg-theme-button-color, #6fa1bffc);
+
+  --button-text-color: #fbfbfb;
+  --button-text-color: var(--tg-theme-button-text-color, #fbfbfb;);
 }
 
 :root {
-  background-color: var(--tg-theme-bg-color);
-  color: var(--tg-theme-text-color);
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
 body {

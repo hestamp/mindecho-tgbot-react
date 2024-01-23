@@ -3,10 +3,8 @@
   height: 100%;
   display: flex;
   position: fixed;
-  background-color: var(--bgColor);
-  color: var(--textColor);
-  background-color: var(--tg-theme-bg-color);
-  color: var(--tg-theme-text-color);
+  color: var(--text-color);
+  background-color: var(--bg-color);
 }
 
 .appBlock {
@@ -141,10 +139,8 @@
   border-radius: 5px;
   outline: none;
   font-weight: 400;
-  color: black;
-  color: var(--tg-theme-text-color);
-  background-color: var(--bgColor);
-  background-color: var(--tg-theme-bg-color);
+  color: var(--text-color);
+  background-color: var(--bg-color);
   font-size: 16px;
   border: 1px solid lightgray;
 }
