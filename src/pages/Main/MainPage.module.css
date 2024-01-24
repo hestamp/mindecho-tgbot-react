@@ -69,6 +69,10 @@
   background-color: var(--bgSide);
 }
 
+.text {
+  width: 100%;
+}
+
 .echotype h4 {
   color: var(--hint-color);
 }
@@ -122,15 +126,36 @@
   gap: 0.5rem;
 }
 
-.taskItem {
-  padding: 10px;
+.readmore {
+  color: white;
+  background-color: var(--maincolor);
+  padding: 5px 10px;
+  font-weight: 500;
+  border-radius: 5px;
+}
+
+.fullitem {
+  width: calc(100% - 22px);
+  max-width: calc(100% - 22px);
   display: flex;
   align-items: center;
-  flex-direction: row;
-  justify-content: space-between;
-  width: calc(100% - 22px);
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 50px;
+  overflow: hidden;
+  padding: 10px;
   border: 1px solid var(--hint-color);
   border-radius: 5px;
+  transition: 0.3s ease all;
+}
+
+.taskItem {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  flex-direction: row;
+
+  justify-content: space-between;
 }
 .minitask {
   width: calc(100% - 22px);
@@ -147,9 +172,34 @@
   border-radius: 5px;
 }
 
+@keyframes closeanime {
+  from {
+    height: fit-content;
+    max-height: 600px; /* Start from the initial collapsed state */
+  }
+  to {
+    max-height: 50px; /* Expand to the maximum height */
+  }
+}
+@keyframes expand {
+  from {
+    max-height: 50px; /* Start from the initial collapsed state */
+  }
+  to {
+    height: fit-content;
+    max-height: 600px; /* Expand to the maximum height */
+  }
+}
+
+.notactive {
+  animation: closeanime 1s ease forwards;
+}
+
 .activetask {
   background-color: var(--hint-color);
   color: black;
+  animation: expand 1s ease forwards;
+  max-height: fit-content;
 }
 .completedtask {
   background-color: var(--maincolor);

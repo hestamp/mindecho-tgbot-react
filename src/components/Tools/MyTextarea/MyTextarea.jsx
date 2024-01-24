@@ -7,6 +7,7 @@ const MyTextarea = ({ type, style, onChange, value, ...rest }) => {
       type={type || 'text'}
       value={value}
       rows={12}
+      style={{ whiteSpace: 'pre-wrap' }}
       className={`${styles.Input} ${style ? style : ''}`}
       {...rest}
     />

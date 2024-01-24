@@ -9,8 +9,13 @@ export const MyStorageProvider = ({ children }) => {
   //MainPage // New Echo
   const [newEchoName, uNewEchoName] = useState('')
   const [newEchoContext, uNewEchoContext] = useState('')
+
   //MainPage // Logic
-  const [newEchoModal, uNewEchoModal] = useState(false)
+  const [echoModal, uEchoModal] = useState(false)
+  const [crudMode, uCrudMode] = useState(null)
+
+  //MainPage // Active item
+  const [activeEcho, uActiveEcho] = useState(null)
 
   const successToast = (message) => toast.success(message)
   const dismissToast = () => toast.dismiss()
@@ -23,10 +28,14 @@ export const MyStorageProvider = ({ children }) => {
       uNewEchoName,
       newEchoContext,
       uNewEchoContext,
-      newEchoModal,
-      uNewEchoModal,
+      echoModal,
+      uEchoModal,
       taskArr,
       uTaskArr,
+      activeEcho,
+      uActiveEcho,
+      crudMode,
+      uCrudMode,
     },
     toaster: { successToast, errorToast },
   }

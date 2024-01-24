@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import styles from './EchoCreator.module.css'
+import styles from './EchoReader.module.css'
 import MyInput from '../Tools/MyInput/MyInput'
 import MyTextarea from '../Tools/MyTextarea/MyTextarea'
 import { useMyMainContext, useMyToaster } from '../../storage/StorageContext'
-const EchoCreator = () => {
+import { renderContentWithLineBreaks } from '../../utils/textUtils'
+const EchoReader = () => {
   const {
     newEchoName,
     uNewEchoName,
@@ -12,6 +13,8 @@ const EchoCreator = () => {
     uTaskArr,
     echoModal,
     uEchoModal,
+    activeEcho,
+    uActiveEcho,
   } = useMyMainContext()
 
   const { successToast } = useMyToaster()
@@ -54,27 +57,23 @@ const EchoCreator = () => {
 
   return (
     <div className={styles.echocreator}>
-      <h3>New echo</h3>
-      <div className={styles.inputblock}>
-        <MyInput
-          value={newEchoName}
-          placeholder="Enter echo name"
-          onChange={(e) => uNewEchoName(e.target.value)}
-          maxLength={33}
-          type="text"
-        />
-        <MyTextarea
-          value={newEchoContext}
-          placeholder="Content of your echo"
-          onChange={(e) => uNewEchoContext(e.target.value)}
-          type="text"
-        />
-      </div>
-      <button onClick={handleAddTask} className={styles.addbutt}>
-        <span> Create</span>
-      </button>
+      {!activeEcho ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <h3>{activeEcho.name}</h3>
+          <div className={styles.inputblock}>
+            {renderContentWithLineBreaks(activeEcho.content)}
+          </div>
+
+          {/* <button onClick={handleAddTask} className={styles.addbutt}>
+            <span> Create</span>
+          </button> */}
+          <h3>{'|'.repeat(activeEcho.lvl)}</h3>
+        </>
+      )}
     </div>
   )
 }
 
-export default EchoCreator
+export default EchoReader

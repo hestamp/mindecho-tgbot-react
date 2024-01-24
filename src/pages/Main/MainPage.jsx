@@ -7,13 +7,19 @@ import MyCalendar from '../../components/Tools/MyCalendar/MyCalendar'
 import MyModal from '../../components/Tools/MyModal/MyModal'
 import EchoCreator from '../../components/EchoCreator/EchoCreator'
 import { useMyMainContext } from '../../storage/StorageContext'
+import MenuDropdown from '../../components/Tools/MenuDropdown/MenuDropdown'
+import EchoReader from '../../components/EchoReader/EchoReader'
+import EchoEditor from '../../components/EchoEditor/EchoEditor'
+import { renderContentWithLineBreaks } from '../../utils/textUtils'
 
 const taskArr1 = [
   {
     name: 'Instruction to my brain',
-    content: '',
+    content:
+      'Some text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n\nSome text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n\nSome text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n\nSome text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n\nSome text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n\nSome text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n\nSome text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n\n',
     active: true,
     lvl: 1,
+    id: '2024-01-24T11:45:35.765Z',
     completed: false,
     dates: [
       '2024-01-22T15:46:58.602Z',
@@ -26,10 +32,11 @@ const taskArr1 = [
   },
   {
     name: 'How to cook muffin',
-    lvl: 3,
-    content: '',
+    lvl: 6,
+    content: 'Lorem ipsum text for muffin',
     active: true,
     completed: true,
+    id: '2024-01-24T11:47:45.197Z',
     dates: [
       '2024-01-11T15:46:58.602Z',
       '2024-01-12T15:46:58.602Z',
@@ -42,8 +49,9 @@ const taskArr1 = [
   {
     name: 'Object in JS',
     lvl: 5,
-    content: '',
+    content: 'Programming',
     active: true,
+    id: '2024-01-24T11:48:00.066Z',
     completed: false,
     dates: [
       '2024-01-22T15:46:58.602Z',
@@ -57,16 +65,23 @@ const taskArr1 = [
 ]
 
 const MainPage = () => {
-  const { newEchoModal, uNewEchoModal, taskArr, uTaskArr } = useMyMainContext()
+  const {
+    echoModal,
+    uEchoModal,
+    taskArr,
+    uTaskArr,
+    crudMode,
+    uCrudMode,
+    activeEcho,
+    uActiveEcho,
+  } = useMyMainContext()
 
   useEffect(() => {
     uTaskArr(taskArr1)
   }, [])
 
   const [activeTask, setActiveTask] = useState(null)
-  const [activeTaskObj, setActiveTaskObj] = useState(null)
 
-  const [modeNow, setModeNow] = useState(null)
   const [todayMode, setTodayMode] = useState('all')
 
   const [selectedDate, setSelectedDate] = useState(new Date())
@@ -82,32 +97,11 @@ const MainPage = () => {
     const reversedIndex = taskArr.length - 1 - index
     const selectedTask = taskArr[reversedIndex]
 
-    if (reversedIndex === activeTask) {
-      setActiveTask(null)
-      setActiveTaskObj(null)
-      setActiveTaskDates([])
-    } else {
+    if (reversedIndex !== activeTask) {
       setActiveTask(index)
-      setModeNow('object')
-      console.log(selectedTask)
-      setActiveTaskObj(selectedTask)
       setActiveTaskDates(selectedTask.dates)
     }
   }
-
-  const activeDateFunc = () => {
-    setModeNow('date')
-  }
-
-  const tasksForSelectedDate = useMemo(() => {
-    const selectedDateString = selectedDate.toISOString().split('T')[0]
-    return taskArr.filter((task) =>
-      task.dates.some((dateString) => {
-        const date = new Date(dateString)
-        return date.toISOString().split('T')[0] === selectedDateString
-      })
-    )
-  }, [selectedDate, taskArr])
 
   const toggleMode = (param) => {
     if (param) {
@@ -141,12 +135,44 @@ const MainPage = () => {
   }, [todayMode, taskArr])
 
   const closeFullModal = () => {
-    uNewEchoModal(false)
+    uEchoModal(false)
+    uCrudMode(null)
+    uActiveEcho(null)
   }
+
+  const createFunc = () => {
+    uCrudMode('create')
+    uEchoModal(true)
+  }
+
+  const readfunc = (obj) => {
+    uActiveEcho(obj)
+    uCrudMode('read')
+    uEchoModal(true)
+  }
+  const updateFunc = (obj) => {
+    uActiveEcho(obj)
+    uCrudMode('update')
+    uEchoModal(true)
+  }
+
+  const delfunc = (obj) => {
+    const newArr = taskArr.filter((item) => item.id !== obj.id)
+
+    uTaskArr(newArr)
+  }
+
+  const arrFunc = [
+    { name: 'Open', func: readfunc },
+    { name: 'Edit', func: updateFunc },
+    { name: 'Remove', func: delfunc },
+  ]
+
+  const activeDateFunc = () => {}
   return (
     <div className={styles.mainPage}>
       <MyModal
-        isOpen={newEchoModal}
+        isOpen={echoModal}
         canClose
         setLocModal={closeFullModal}
         modalName=""
@@ -154,7 +180,15 @@ const MainPage = () => {
       >
         <div className={styles.main}>
           <div className={styles.mainImgBlock}>
-            <EchoCreator />
+            {crudMode === 'read' ? (
+              <EchoReader />
+            ) : crudMode === 'update' ? (
+              <EchoEditor />
+            ) : crudMode == 'create' ? (
+              <EchoCreator />
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </MyModal>
@@ -183,15 +217,7 @@ const MainPage = () => {
             </button>
 
             <h4>|</h4>
-            {/* <button
-              onClick={() => toggleMode('today')}
-              className={`${styles.typebutt} ${
-                todayMode == 'today' && styles.activetype
-              }`}
-            >
-              Today{' '}
-            </button>
-            <h4>|</h4> */}
+
             <button
               onClick={() => toggleMode('completed')}
               className={`${styles.typebutt} ${
@@ -204,31 +230,63 @@ const MainPage = () => {
 
           <div className={styles.taskblock}>
             {filteredTasks.length > 0 ? (
-              filteredTasks.map((item, index) => (
-                <div
-                  onClick={() => goActiveTask(index)}
-                  className={`${styles.taskItem} ${
-                    activeTask == index && styles.activetask
-                  } `}
-                  key={index}
-                >
-                  <div className={styles.repeat}>
-                    <h4 className={`${styles.waves} `}>
-                      {'|'.repeat(item.lvl)}
-                    </h4>
-                    <h4>{item.name}</h4>
+              filteredTasks.map((item, index) => {
+                const maxChar = 300
+                let truncatedContent = item.content
+
+                const isContentTooLong = item.content.length > maxChar
+
+                if (item.content.length > maxChar) {
+                  truncatedContent = item.content.substring(0, maxChar) + '...'
+                }
+
+                const paragraphs = truncatedContent.split('\n\n')
+
+                return (
+                  <div
+                    onClick={() => goActiveTask(index)}
+                    className={`${styles.fullitem} ${
+                      activeTask == index ? styles.activetask : styles.notactive
+                    } `}
+                    key={index}
+                  >
+                    <div className={styles.taskItem}>
+                      {' '}
+                      <div className={styles.repeat}>
+                        <h4 className={`${styles.waves} `}>
+                          {'|'.repeat(item.lvl)}
+                        </h4>
+                        <h4>{item.name}</h4>
+                      </div>
+                      {item.completed ? (
+                        <button className={` ${styles.funcButtActive}`}>
+                          <MdDone />
+                        </button>
+                      ) : (
+                        <MenuDropdown
+                          itemobj={item}
+                          myalign="end"
+                          array={arrFunc}
+                          selected={<BsThreeDots className={styles.funcButt} />}
+                        />
+                      )}
+                    </div>
+                    {activeTask == index && (
+                      <div className={styles.text}>
+                        {renderContentWithLineBreaks(truncatedContent)}
+                      </div>
+                    )}
+                    {activeTask == index && isContentTooLong && (
+                      <button
+                        className={styles.readmore}
+                        onClick={() => readfunc(item)}
+                      >
+                        Read more
+                      </button>
+                    )}
                   </div>
-                  {item.completed ? (
-                    <button className={` ${styles.funcButtActive}`}>
-                      <MdDone />
-                    </button>
-                  ) : (
-                    <button className={styles.funcButt}>
-                      <BsThreeDots />
-                    </button>
-                  )}
-                </div>
-              ))
+                )
+              })
             ) : (
               <h4>
                 {todayMode === 'all' &&
@@ -242,59 +300,9 @@ const MainPage = () => {
         </div>
       </div>
 
-      <div className={styles.miniblock}>
-        {modeNow == 'object' && activeTaskObj ? (
-          <div className={styles.miniblock}>
-            <div className={styles.paddingblock}>
-              <h3>Echo Levels for {activeTaskObj.name}</h3>
-              <div className={styles.taskblock}>
-                {activeTaskObj.dates.map((date, index) => (
-                  <div
-                    key={index}
-                    className={`${styles.minitask} ${
-                      index + 1 < activeTaskObj.lvl ? styles.activetask : ''
-                    }`}
-                  >
-                    <h4 className={`${styles.waves}`}>
-                      {'|'.repeat(index + 1)}
-                    </h4>
-
-                    <h4>{new Date(date).toLocaleDateString()}</h4>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        ) : (
-          <></>
-        )}
-
-        {tasksForSelectedDate.length && modeNow == 'date' ? (
-          <div className={styles.paddingblock}>
-            <h3>Echos for {formatDate(selectedDate)}</h3>
-            {tasksForSelectedDate.map((task, index) => (
-              <div key={index} className={styles.taskItem}>
-                <h4>{task.name}</h4>
-                <p>Level: {task.lvl}</p>
-              </div>
-            ))}
-          </div>
-        ) : tasksForSelectedDate.length == 0 && modeNow == 'date' ? (
-          <div className={styles.paddingblock}>
-            <h3>Echos for {formatDate(selectedDate)}</h3>
-            <p>There is no echos for this day</p>
-          </div>
-        ) : (
-          <></>
-        )}
-      </div>
-
-      {!newEchoModal ? (
+      {!echoModal ? (
         <div className={styles.createDiv}>
-          <button
-            onClick={() => uNewEchoModal(true)}
-            className={styles.addbutt}
-          >
+          <button onClick={createFunc} className={styles.addbutt}>
             <span> Create echo</span>
           </button>
         </div>
