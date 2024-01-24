@@ -4,6 +4,7 @@ import './MyCalendar.css'
 
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from 'react-icons/md'
 import { LuWaves } from 'react-icons/lu'
+import { useMyMainContext } from '../../../storage/StorageContext'
 const MyCalendar = ({
   sunOrMon,
   setDate,
@@ -14,11 +15,7 @@ const MyCalendar = ({
   activeStartDate,
   highlightDates,
 }) => {
-  // const handleDateChange = (date) => {
-  //   setDate(date)
-  //   console.log(date)
-  //   console.log(typeof date)
-  // }
+  const { newEchoModal, uNewEchoModal, taskArr, uTaskArr } = useMyMainContext()
 
   const renderTileClass = ({ date, view }) => {
     if (view === 'month') {
@@ -31,45 +28,6 @@ const MyCalendar = ({
       }
     }
   }
-
-  const taskArr = [
-    {
-      name: 'Insruction to my brain',
-      lvl: 1,
-      dates: [
-        '2024-01-22T15:46:58.602Z',
-        '2024-01-23T15:46:58.602Z',
-        '2024-01-27T15:46:58.602Z',
-        '2024-02-06T15:46:58.602Z',
-        '2024-02-21T15:46:58.602Z',
-        '2024-03-22T15:46:58.602Z',
-      ],
-    },
-    {
-      name: 'How to cook muffin',
-      lvl: 3,
-      dates: [
-        '2024-01-22T15:46:58.602Z',
-        '2024-01-23T15:46:58.602Z',
-        '2024-01-27T15:46:58.602Z',
-        '2024-02-06T15:46:58.602Z',
-        '2024-02-21T15:46:58.602Z',
-        '2024-03-22T15:46:58.602Z',
-      ],
-    },
-    {
-      name: 'Object in JS',
-      lvl: 5,
-      dates: [
-        '2024-01-22T15:46:58.602Z',
-        '2024-01-23T15:46:58.602Z',
-        '2024-01-27T15:46:58.602Z',
-        '2024-02-06T15:46:58.602Z',
-        '2024-02-21T15:46:58.602Z',
-        '2024-03-22T15:46:58.602Z',
-      ],
-    },
-  ]
 
   const formatDate = (date) => {
     return date.toISOString().split('T')[0]

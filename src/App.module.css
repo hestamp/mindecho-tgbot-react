@@ -33,5 +33,22 @@
   flex-direction: column;
   justify-content: center;
   align-items: left;
-  background-color: var(--hint-color);
+}
+
+.paddingblock {
+  display: flex;
+  padding: 0.3rem 0;
+  width: 95%;
+  min-width: 95%;
+  max-width: 95%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.paddingblock p {
+  color: var(--hint-color);
 }

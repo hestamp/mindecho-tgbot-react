@@ -1,9 +1,12 @@
 import React from 'react'
 import styles from './MainPage.module.css'
-
+import { MdDone } from 'react-icons/md'
 import { useEffect, useMemo, useState } from 'react'
-
+import { BsThreeDots } from 'react-icons/bs'
 import MyCalendar from '../../components/Tools/MyCalendar/MyCalendar'
+import MyModal from '../../components/Tools/MyModal/MyModal'
+import EchoCreator from '../../components/EchoCreator/EchoCreator'
+import { useMyMainContext } from '../../storage/StorageContext'
 
 const taskArr1 = [
   {
@@ -54,18 +57,18 @@ const taskArr1 = [
 ]
 
 const MainPage = () => {
-  const [taskArr, setTaskArr] = useState(taskArr1)
+  const { newEchoModal, uNewEchoModal, taskArr, uTaskArr } = useMyMainContext()
 
-  const [newTaskAdded, setNewTaskAdded] = useState(false)
+  useEffect(() => {
+    uTaskArr(taskArr1)
+  }, [])
 
-  // New states for modal visibility and input value
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [newTaskName, setNewTaskName] = useState('')
   const [activeTask, setActiveTask] = useState(null)
+  const [activeTaskObj, setActiveTaskObj] = useState(null)
 
   const [modeNow, setModeNow] = useState(null)
+  const [todayMode, setTodayMode] = useState('all')
 
-  const [maxDate, setMaxDate] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [activeTaskDates, setActiveTaskDates] = useState([])
 
@@ -75,114 +78,25 @@ const MainPage = () => {
     return `${day} ${month}`
   }
 
-  const renderModal = () => (
-    <div className={styles.modal}>
-      <input
-        autoFocus
-        className={styles.input}
-        value={newTaskName}
-        onChange={(e) => setNewTaskName(e.target.value)}
-        placeholder="Enter your echo"
-      />
-    </div>
-  )
-
-  const handleAddTask = () => {
-    const currentDate = new Date()
-    const intervals = [0, 1, 5, 15, 30, 60] // Intervals in days
-
-    // setTaskArr((prevTaskArr) => [...prevTaskArr, newTask])
-
-    setNewTaskAdded(true)
-
-    // Map intervals to date objects
-    const dates = intervals.map((interval) => {
-      const date = new Date(currentDate)
-      date.setDate(currentDate.getDate() + interval)
-      return date // Storing as Date objects
-    })
-
-    // Add the new task with the dates array
-    const newTask = {
-      name: newTaskName,
-      lvl: 1,
-      dates: dates,
-      content: '',
-      active: true,
-      completed: false,
-    }
-
-    // Update taskArr and then select the new task
-    setTaskArr((prevTaskArr) => {
-      const updatedTaskArr = [...prevTaskArr, newTask]
-
-      return updatedTaskArr
-    })
-
-    // Resetting input field and modal state
-    setNewTaskName('')
-    setIsModalOpen(false)
-  }
-
-  useEffect(() => {
-    const today = new Date()
-    const maxDate = new Date(today)
-    maxDate.setDate(today.getDate() + 6)
-    setMaxDate(maxDate)
-  }, [])
-
   const goActiveTask = (index) => {
     const reversedIndex = taskArr.length - 1 - index
     const selectedTask = taskArr[reversedIndex]
 
     if (reversedIndex === activeTask) {
       setActiveTask(null)
+      setActiveTaskObj(null)
       setActiveTaskDates([])
     } else {
-      setActiveTask(selectedTask) // Store the entire task object
+      setActiveTask(index)
       setModeNow('object')
-      setActiveTaskDates(selectedTask.dates) // Store dates of the selected task
+      console.log(selectedTask)
+      setActiveTaskObj(selectedTask)
+      setActiveTaskDates(selectedTask.dates)
     }
   }
-
-  useEffect(() => {
-    if (newTaskAdded) {
-      // Call goActiveTask for the last task in the array
-      goActiveTask(0)
-      console.log('run')
-      // Reset the newTaskAdded flag
-      setNewTaskAdded(false)
-    }
-  }, [newTaskAdded, taskArr])
 
   const activeDateFunc = () => {
     setModeNow('date')
-  }
-
-  const renderDatesBlock = () => {
-    if (activeTask) {
-      return (
-        <div className={styles.miniblock}>
-          <div className={styles.paddingblock}>
-            <h3>Echo Levels for {activeTask.name}</h3>
-            <div className={styles.taskblock}>
-              {activeTask.dates.map((date, index) => (
-                <div
-                  key={index}
-                  className={`${styles.minitask} ${
-                    index + 1 < activeTask.lvl ? styles.completedtask : ''
-                  }`}
-                >
-                  <h4>{index + 1}</h4>
-                  <h4>{new Date(date).toLocaleDateString()}</h4>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )
-    }
-    return null
   }
 
   const tasksForSelectedDate = useMemo(() => {
@@ -194,8 +108,6 @@ const MainPage = () => {
       })
     )
   }, [selectedDate, taskArr])
-
-  const [todayMode, setTodayMode] = useState('all')
 
   const toggleMode = (param) => {
     if (param) {
@@ -209,15 +121,15 @@ const MainPage = () => {
     let tasks = [...taskArr]
 
     if (todayMode === 'today') {
-      tasks = tasks.filter((task) =>
+      tasks = tasks.filter((task) => {
+        console.log(task.dates)
         task.dates.some((dateString) => dateString.startsWith(todayString))
-      )
+      })
     } else if (todayMode === 'completed') {
       tasks = tasks.filter((task) => task.completed)
     }
 
     if (todayMode === 'all') {
-      // Sort so that completed tasks are at the beginning (they will be at the bottom after reverse)
       tasks.sort((a, b) => {
         if (a.completed && !b.completed) return -1
         if (!a.completed && b.completed) return 1
@@ -227,10 +139,26 @@ const MainPage = () => {
 
     return tasks.reverse()
   }, [todayMode, taskArr])
+
+  const closeFullModal = () => {
+    uNewEchoModal(false)
+  }
   return (
     <div className={styles.mainPage}>
+      <MyModal
+        isOpen={newEchoModal}
+        canClose
+        setLocModal={closeFullModal}
+        modalName=""
+        myJustifyName="c"
+      >
+        <div className={styles.main}>
+          <div className={styles.mainImgBlock}>
+            <EchoCreator />
+          </div>
+        </div>
+      </MyModal>
       <div className={styles.miniblock}>
-        {/* <h3 className={styles.miniH}>Echoes Calendar</h3> */}
         <MyCalendar
           // maxPlus={maxDate}
           valueDate={selectedDate}
@@ -251,11 +179,11 @@ const MainPage = () => {
                 todayMode == 'all' && styles.activetype
               }`}
             >
-              All Echoes
+              Active
             </button>
 
             <h4>|</h4>
-            <button
+            {/* <button
               onClick={() => toggleMode('today')}
               className={`${styles.typebutt} ${
                 todayMode == 'today' && styles.activetype
@@ -263,7 +191,7 @@ const MainPage = () => {
             >
               Today{' '}
             </button>
-            <h4>|</h4>
+            <h4>|</h4> */}
             <button
               onClick={() => toggleMode('completed')}
               className={`${styles.typebutt} ${
@@ -274,25 +202,37 @@ const MainPage = () => {
             </button>
           </div>
 
-          {isModalOpen && renderModal()}
           <div className={styles.taskblock}>
             {filteredTasks.length > 0 ? (
               filteredTasks.map((item, index) => (
                 <div
                   onClick={() => goActiveTask(index)}
-                  className={`${styles.minitask} ${
+                  className={`${styles.taskItem} ${
                     activeTask == index && styles.activetask
-                  } ${item.completed && styles.completedtask}`}
+                  } `}
                   key={index}
                 >
-                  <h4 className={styles.textecho}>{item.name}</h4>
-                  <h4>{item.lvl.toString()}</h4>
+                  <div className={styles.repeat}>
+                    <h4 className={`${styles.waves} `}>
+                      {'|'.repeat(item.lvl)}
+                    </h4>
+                    <h4>{item.name}</h4>
+                  </div>
+                  {item.completed ? (
+                    <button className={` ${styles.funcButtActive}`}>
+                      <MdDone />
+                    </button>
+                  ) : (
+                    <button className={styles.funcButt}>
+                      <BsThreeDots />
+                    </button>
+                  )}
                 </div>
               ))
             ) : (
               <h4>
                 {todayMode === 'all' &&
-                  'You don’t have echos now, click "Create echo" to start.'}
+                  'You don’t have echos now. \n Click "Create echo" to start.'}
                 {todayMode === 'today' && 'You don’t have echos for today.'}
                 {todayMode === 'completed' &&
                   'You don’t have completed echos yet.'}
@@ -303,10 +243,28 @@ const MainPage = () => {
       </div>
 
       <div className={styles.miniblock}>
-        {modeNow == 'object' ? (
-          <>
-            {renderDatesBlock()} {/* Render the dates block */}
-          </>
+        {modeNow == 'object' && activeTaskObj ? (
+          <div className={styles.miniblock}>
+            <div className={styles.paddingblock}>
+              <h3>Echo Levels for {activeTaskObj.name}</h3>
+              <div className={styles.taskblock}>
+                {activeTaskObj.dates.map((date, index) => (
+                  <div
+                    key={index}
+                    className={`${styles.minitask} ${
+                      index + 1 < activeTaskObj.lvl ? styles.activetask : ''
+                    }`}
+                  >
+                    <h4 className={`${styles.waves}`}>
+                      {'|'.repeat(index + 1)}
+                    </h4>
+
+                    <h4>{new Date(date).toLocaleDateString()}</h4>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         ) : (
           <></>
         )}
@@ -323,27 +281,26 @@ const MainPage = () => {
           </div>
         ) : tasksForSelectedDate.length == 0 && modeNow == 'date' ? (
           <div className={styles.paddingblock}>
-            <h3>Tasks for {formatDate(selectedDate)}</h3>
+            <h3>Echos for {formatDate(selectedDate)}</h3>
             <p>There is no echos for this day</p>
           </div>
         ) : (
           <></>
         )}
       </div>
-      <div className={styles.createDiv}>
-        {!isModalOpen ? (
+
+      {!newEchoModal ? (
+        <div className={styles.createDiv}>
           <button
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => uNewEchoModal(true)}
             className={styles.addbutt}
           >
             <span> Create echo</span>
           </button>
-        ) : (
-          <button onClick={handleAddTask} className={styles.addbutt}>
-            <span> Add</span>
-          </button>
-        )}
-      </div>
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   )
 }

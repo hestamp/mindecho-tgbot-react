@@ -35,22 +35,20 @@ const UserComponent = () => {
       setTelegram(tg)
 
       tg.expand()
-      tg.MainButton.text = 'Changed Text'
-      tg.MainButton.setText('Changed Text1')
-      tg.MainButton.textColor = '#F55353'
-      tg.MainButton.color = '#143F6B'
-      tg.MainButton.setParams({ color: '#143F6B' })
 
       if (tg.initDataUnsafe?.user) {
         setUserData({
-          firstName: tg.initDataUnsafe.user.first_name,
-          lastName: tg.initDataUnsafe.user.last_name,
-          username: tg.initDataUnsafe.user.username,
-          languageCode: tg.initDataUnsafe.user.language_code,
-          userId: tg.initDataUnsafe.user.id,
+          firstName: tg.initDataUnsafe.user.first_name || 'user',
+          lastName: tg.initDataUnsafe.user.last_name || null,
+          username: tg.initDataUnsafe.user.username || null,
+          languageCode: tg.initDataUnsafe.user.language_code || 'uk',
+          userId: tg.initDataUnsafe.user.id || 'null',
         })
       }
 
+      tg.onEvent('mainButtonClicked', () => {
+        tg.sendData('some string that we need to send')
+      })
       tg.onEvent('mainButtonClicked', () => {
         tg.sendData('some string that we need to send')
       })

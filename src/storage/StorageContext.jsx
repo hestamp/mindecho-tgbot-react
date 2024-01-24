@@ -3,14 +3,31 @@ import { Toaster, toast } from 'react-hot-toast'
 export const StorageContext = createContext()
 
 export const MyStorageProvider = ({ children }) => {
-  const [globalArr, uGlobalArr] = useState([])
+  //MainPage // Array of echos
+  const [taskArr, uTaskArr] = useState([])
 
-  const successToast = (message) => toast.success(message, themeToast)
+  //MainPage // New Echo
+  const [newEchoName, uNewEchoName] = useState('')
+  const [newEchoContext, uNewEchoContext] = useState('')
+  //MainPage // Logic
+  const [newEchoModal, uNewEchoModal] = useState(false)
+
+  const successToast = (message) => toast.success(message)
   const dismissToast = () => toast.dismiss()
-  const errorToast = (message) => toast.error(message, themeToast)
+  const errorToast = (message) => toast.error(message)
 
   const storageContextData = {
-    global: { globalArr, uGlobalArr },
+    global: {},
+    mainpage: {
+      newEchoName,
+      uNewEchoName,
+      newEchoContext,
+      uNewEchoContext,
+      newEchoModal,
+      uNewEchoModal,
+      taskArr,
+      uTaskArr,
+    },
     toaster: { successToast, errorToast },
   }
 
@@ -35,4 +52,11 @@ export function useMyToaster() {
     throw new Error('No Toaster Context')
   }
   return toaster
+}
+export function useMyMainContext() {
+  const { mainpage } = useContext(StorageContext)
+  if (!mainpage) {
+    throw new Error('No Main C')
+  }
+  return mainpage
 }

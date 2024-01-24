@@ -22,8 +22,9 @@ function App() {
       <div className={styles.appBlock}>
         <div className={styles.mainpage}>
           {/* <UserComponent /> */}
-          <div className={styles.greetMsg}>
-            <h3>Good to see you again, Tom!</h3>
+          <div className={styles.paddingblock}>
+            <h4>Good to see you again, Tom!</h4>
+            <p>Dont forget to repeat learned echos</p>
           </div>
           <Routes>
             <Route exact path="/main" element={<MainPage />} />

@@ -47,6 +47,7 @@
   display: flex;
   background-color: var(--bgColor);
   color: black;
+  height: 14vw;
   font-weight: 500;
   border-bottom: 1px solid var(--hint-color);
   height: 33px;
@@ -76,6 +77,7 @@
   background-color: var(--hint-color);
 
   border-bottom: 1px solid var(--hint-color);
+
   color: black;
 }
 
