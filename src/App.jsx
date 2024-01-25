@@ -8,7 +8,11 @@ import UserComponent from './components/UserComponent/UserComponent'
 import MainPage from './pages/Main/MainPage'
 import OneEchoPage from './pages/OneEcho/OneEchoPage'
 import { telegramApp, useTelegram } from './hooks/useTelegram'
-import { useMyTelegram, useMyToaster } from './storage/StorageContext'
+import {
+  useMyMainContext,
+  useMyTelegram,
+  useMyToaster,
+} from './storage/StorageContext'
 
 function App() {
   const navigate = useNavigate()
@@ -56,6 +60,8 @@ function App() {
 
   const { successToast } = useMyToaster()
 
+  const { uEchoModal, uCrudMode } = useMyMainContext()
+
   useEffect(() => {
     const guideCompleted = localStorage.getItem('guide') === 'true'
     navigate(guideCompleted ? '/main' : '/')
@@ -79,9 +85,22 @@ function App() {
   }
 
   const clickMyButt = () => {
-    telegramApp.MainButton.onClick(() => {
-      successToast('button clicked')
-    })
+    telegramApp.MainButton.offClick(activateEchoCreator)
+    telegramApp.MainButton.onClick(successToasterNotif)
+  }
+
+  const successToasterNotif = () => {
+    successToast('button clicked')
+  }
+
+  const activateEchoCreator = () => {
+    uCrudMode('create')
+    uEchoModal(true)
+  }
+
+  const newFunction = () => {
+    telegramApp.MainButton.offClick(successToasterNotif)
+    telegramApp.MainButton.onClick(activateEchoCreator)
   }
 
   const showHideMain = () => {
@@ -105,7 +124,10 @@ function App() {
             My butt
           </button>
           <button className={styles.testbutt} onClick={clickMyButt}>
-            New Func For Main
+            Toarter func
+          </button>
+          <button className={styles.testbutt} onClick={newFunction}>
+            Creating new Echo
           </button>
           <button className={styles.testbutt} onClick={showHideMain}>
             Show hide butt
