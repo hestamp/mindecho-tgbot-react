@@ -27,9 +27,11 @@ function App() {
 
   useEffect(() => {
     checkrunAndExpand()
-    if (telegramApp) {
+    if (telegramApp.platform != 'unknown') {
+      console.log(telegramApp.platform)
       console.log(telegramApp)
-      // changeMainButt()
+      changeMainButt()
+      newFunctions()
       telegramApp.MainButton.show()
       telegramApp.MainButton.enable()
     }
@@ -40,6 +42,7 @@ function App() {
   const { uEchoModal, uCrudMode } = useMyLogic()
 
   useEffect(() => {
+    console.log('run this func')
     const guideCompleted = localStorage.getItem('guide') === 'true'
     navigate(guideCompleted ? '/main' : '/')
     // localStorage.setItem('guide', 'false')
@@ -47,8 +50,6 @@ function App() {
 
   const changeMainButt = () => {
     if (telegramApp?.MainButton) {
-      telegramApp.MainButton.hide()
-
       telegramApp.MainButton.setParams({
         text: 'Create echo',
         color: '#6fa1bff',
@@ -56,8 +57,14 @@ function App() {
         is_active: true,
         is_visible: true,
       })
+    }
+  }
 
-      telegramApp.MainButton.show()
+  const newFunctions = () => {
+    if (mainButtFunc == 'notif') {
+      uMainButtFunc('create')
+    } else {
+      uMainButtFunc('notif')
     }
   }
 
@@ -102,6 +109,9 @@ function App() {
           </button>
           <button className={styles.testbutt} onClick={changeMainButt}>
             My butt
+          </button>
+          <button className={styles.testbutt} onClick={newFunctions}>
+            newFunctions
           </button>
 
           <button className={styles.testbutt} onClick={activateAll}>
