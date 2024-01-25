@@ -85,7 +85,7 @@ function App() {
   const oneAndOnlyOnclick = () => {
     if (mainButtFunc == 'notif') {
       successToasterNotif()
-    } else if (mainButtFunc == 'notif') {
+    } else if (mainButtFunc == 'create') {
       activateEchoCreator()
     } else {
       activateAll()
