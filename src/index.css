@@ -14,14 +14,9 @@
   --bgColor: #fbfbfb;
   --textColor: #202020;
   --maincolor: #6fa1bffc;
-  --showbox: none;
-  --borderColor: #bebebe60;
-  --border: lightgray;
 
-  --bgSide: #f7f7f7;
-  --bgHover: #eeeeee;
-  --pBlack: #202020;
-  --shadowMin: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --borderColor: #696969;
+  --border: lightgray;
 
   /*TG theme colors*/
   --bg-color: #fbfbfb;
@@ -36,7 +31,7 @@
   --link-color: #6fa1bffc;
   --link-color: var(--tg-theme-link-color, #6fa1bffc);
 
-  --button-color: #6fa1bffc;
+  --button-color: #6fa0bf;
   /* --button-color: var(--tg-theme-button-color, #6fa1bffc); */
 
   --button-text-color: #fbfbfb;

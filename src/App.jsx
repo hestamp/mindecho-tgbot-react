@@ -23,7 +23,7 @@ function App() {
   const { checkrunAndExpand, user, userUnsafe, queryId, onToggleButton } =
     useTelegram()
 
-  const { mainButtFunc, uMainButtFunc } = useMyLogic()
+  const { mainButtFunc, uMainButtFunc, echoModal } = useMyLogic()
 
   const { successToast } = useMyToaster()
 
@@ -37,17 +37,18 @@ function App() {
   }, [navigate])
 
   const newFunctions = () => {
-    telegramApp.MainButton.offClick(oneAndOnlyOnclick)
+    // telegramApp.MainButton.offClick(oneAndOnlyOnclick)
     console.log(mainButtFunc)
-    successToast(` Main butt func is \n\n${mainButtFunc}`)
-    if (mainButtFunc == 'notif') {
-      uMainButtFunc('create')
-      successToast('activatedCreate')
-    } else {
-      uMainButtFunc('notif')
-      // console.log('activatedNofit')
-      successToast('activatedNofit')
-    }
+    uMainButtFunc('create')
+
+    // if (mainButtFunc == 'notif') {
+    //   uMainButtFunc('create')
+    //   successToast('activatedCreate')
+    // } else {
+    //   uMainButtFunc('notif')
+
+    //   successToast('activatedNofit')
+    // }
     telegramApp.MainButton.onClick(oneAndOnlyOnclick)
   }
 
@@ -60,6 +61,16 @@ function App() {
     uEchoModal(true)
   }
 
+  useEffect(() => {
+    if (echoModal) {
+      telegramApp.MainButton.hide()
+    }
+
+    if (!echoModal) {
+      telegramApp.MainButton.show()
+    }
+  }, [echoModal])
+
   const showHideMain = () => {
     if (telegramApp) {
       if (telegramApp.MainButton.isVisible) {
@@ -71,13 +82,14 @@ function App() {
   }
 
   const oneAndOnlyOnclick = () => {
-    if (mainButtFunc == 'notif') {
-      successToasterNotif()
-    } else if (mainButtFunc == 'create') {
-      activateEchoCreator()
-    } else {
-      activateAll()
-    }
+    // if (mainButtFunc == 'notif') {
+    //   successToasterNotif()
+    // } else if (mainButtFunc == 'create') {
+    //   activateEchoCreator()
+    // } else {
+    //   activateAll()
+    // }
+    activateEchoCreator()
   }
 
   const checkMainButt = () => {
@@ -115,50 +127,13 @@ function App() {
     }
     newFunctions()
     changeMainButt() // Set the MainButton parameters
-    activateAll()
+    // activateAll()
   }, [])
 
   return (
     <div className={styles.App}>
       <div className={styles.appBlock}>
         <div className={styles.mainpage}>
-          <button className={styles.testbutt} onClick={checkMainButt}>
-            Main butt func check
-          </button>
-          <button className={styles.testbutt} onClick={onToggleButton}>
-            Toggle main button
-          </button>
-          <button className={styles.testbutt} onClick={changeMainButt}>
-            My butt
-          </button>
-          <button className={styles.testbutt} onClick={newFunctions}>
-            newFunctions
-          </button>
-
-          <button className={styles.testbutt} onClick={activateAll}>
-            ONE FUNC ACTIVATOR
-          </button>
-          <button className={styles.testbutt} onClick={showHideMain}>
-            Show hide butt
-          </button>
-          {/* <UserComponent /> */}
-          {telegramApp?.initData ? (
-            <p>{JSON.stringify(telegramApp?.initData)} </p>
-          ) : (
-            <></>
-          )}
-          <div className={styles.maininfo}>
-            {telegramApp?.initDataUnsafe ? (
-              <p>{JSON.stringify(telegramApp?.initDataUnsafe)} </p>
-            ) : (
-              <></>
-            )}
-            {telegramApp ? (
-              <p>Platform telegram: {telegramApp.platform}</p>
-            ) : (
-              <></>
-            )}
-          </div>
           <div className={styles.paddingblock}>
             <h4>Good to see you again, Tom!</h4>
             <p>Dont forget to repeat learned echos</p>

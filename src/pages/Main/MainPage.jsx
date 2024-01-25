@@ -11,58 +11,7 @@ import MenuDropdown from '../../components/Tools/MenuDropdown/MenuDropdown'
 import EchoReader from '../../components/EchoReader/EchoReader'
 import EchoEditor from '../../components/EchoEditor/EchoEditor'
 import { renderContentWithLineBreaks } from '../../utils/textUtils'
-
-const taskArr1 = [
-  {
-    name: 'Instruction to my brain',
-    content:
-      'Some text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n\nSome text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n\nSome text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n\nSome text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n\nSome text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n\nSome text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n\nSome text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n Some text of my brain context slug data right now i just type some information jus to fill out this long message \n\n',
-    active: true,
-    lvl: 1,
-    id: '2024-01-24T11:45:35.765Z',
-    completed: false,
-    dates: [
-      '2024-01-22T15:46:58.602Z',
-      '2024-01-23T15:46:58.602Z',
-      '2024-01-27T15:46:58.602Z',
-      '2024-02-06T15:46:58.602Z',
-      '2024-02-21T15:46:58.602Z',
-      '2024-03-22T15:46:58.602Z',
-    ],
-  },
-  {
-    name: 'How to cook muffin',
-    lvl: 6,
-    content: 'Lorem ipsum text for muffin',
-    active: true,
-    completed: true,
-    id: '2024-01-24T11:47:45.197Z',
-    dates: [
-      '2024-01-11T15:46:58.602Z',
-      '2024-01-12T15:46:58.602Z',
-      '2024-01-14T15:46:58.602Z',
-      '2024-02-15T15:46:58.602Z',
-      '2024-02-16T15:46:58.602Z',
-      '2024-03-17T15:46:58.602Z',
-    ],
-  },
-  {
-    name: 'Object in JS',
-    lvl: 5,
-    content: 'Programming',
-    active: true,
-    id: '2024-01-24T11:48:00.066Z',
-    completed: false,
-    dates: [
-      '2024-01-22T15:46:58.602Z',
-      '2024-01-23T15:46:58.602Z',
-      '2024-01-27T15:46:58.602Z',
-      '2024-02-06T15:46:58.602Z',
-      '2024-02-21T15:46:58.602Z',
-      '2024-03-22T15:46:58.602Z',
-    ],
-  },
-]
+import { telegramApp } from '../../hooks/useTelegram'
 
 const MainPage = () => {
   const {
@@ -76,7 +25,7 @@ const MainPage = () => {
   const { crudMode, uCrudMode, echoModal, uEchoModal } = useMyLogic()
 
   useEffect(() => {
-    uTaskArr(taskArr1)
+    uTaskArr([])
   }, [])
 
   const [activeTask, setActiveTask] = useState(null)
@@ -298,7 +247,9 @@ const MainPage = () => {
         </div>
       </div>
 
-      {!echoModal ? (
+      {console.log(telegramApp.MainButton)}
+
+      {telegramApp.platform == 'unknown' && !echoModal ? (
         <div className={styles.createDiv}>
           <button onClick={createFunc} className={styles.addbutt}>
             <span> Create echo</span>
