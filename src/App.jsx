@@ -30,7 +30,7 @@ function App() {
     if (telegramApp.platform != 'unknown') {
       console.log(telegramApp.platform)
       console.log(telegramApp)
-      changeMainButt()
+      // changeMainButt()
       newFunctions()
       telegramApp.MainButton.show()
       telegramApp.MainButton.enable()
