@@ -64,6 +64,8 @@ function App() {
 
   const changeMainButt = () => {
     if (telegramApp) {
+      telegramApp.MainButton.hide()
+
       telegramApp.MainButton.setParams({
         text: 'Create echo',
         color: '#6fa1bff',
@@ -71,6 +73,8 @@ function App() {
         is_active: true,
         is_visible: true,
       })
+
+      telegramApp.MainButton.show()
     }
   }
 
