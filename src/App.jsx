@@ -30,11 +30,11 @@ function App() {
     if (telegramApp.platform != 'unknown') {
       console.log(telegramApp.platform)
       console.log(telegramApp)
-      // changeMainButt()
-      newFunctions()
+
       telegramApp.MainButton.show()
       telegramApp.MainButton.enable()
     }
+    newFunctions()
     changeMainButt() // Set the MainButton parameters
     activateAll()
   }, [])
@@ -51,10 +51,15 @@ function App() {
   }, [navigate])
 
   const newFunctions = () => {
+    console.log(mainButtFunc)
+    successToast(` Main butt func is \n\n${mainButtFunc}`)
     if (mainButtFunc == 'notif') {
       uMainButtFunc('create')
+      successToast('activatedCreate')
     } else {
       uMainButtFunc('notif')
+      // console.log('activatedNofit')
+      successToast('activatedNofit')
     }
   }
 
@@ -87,7 +92,12 @@ function App() {
     }
   }
 
+  const checkMainButt = () => {
+    successToast(`Main butt func is ${mainButtFunc}`)
+  }
+
   const changeMainButt = () => {
+    successToast('custom butt')
     if (telegramApp?.MainButton) {
       telegramApp.MainButton.setParams({
         text: 'Create echo', // Set your desired button text
@@ -100,6 +110,7 @@ function App() {
   }
 
   const activateAll = () => {
+    successToast('activate butt')
     if (telegramApp?.MainButton) {
       telegramApp.MainButton.onClick(oneAndOnlyOnclick)
     }
@@ -109,6 +120,9 @@ function App() {
     <div className={styles.App}>
       <div className={styles.appBlock}>
         <div className={styles.mainpage}>
+          <button className={styles.testbutt} onClick={checkMainButt}>
+            Main butt func check
+          </button>
           <button className={styles.testbutt} onClick={onToggleButton}>
             Toggle main button
           </button>
