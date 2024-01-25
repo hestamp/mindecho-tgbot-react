@@ -25,20 +25,6 @@ function App() {
 
   const { mainButtFunc, uMainButtFunc } = useMyLogic()
 
-  useEffect(() => {
-    checkrunAndExpand()
-    if (telegramApp.platform != 'unknown') {
-      console.log(telegramApp.platform)
-      console.log(telegramApp)
-
-      telegramApp.MainButton.show()
-      telegramApp.MainButton.enable()
-    }
-    newFunctions()
-    changeMainButt() // Set the MainButton parameters
-    activateAll()
-  }, [])
-
   const { successToast } = useMyToaster()
 
   const { uEchoModal, uCrudMode } = useMyLogic()
@@ -51,6 +37,7 @@ function App() {
   }, [navigate])
 
   const newFunctions = () => {
+    telegramApp.MainButton.offClick(oneAndOnlyOnclick)
     console.log(mainButtFunc)
     successToast(` Main butt func is \n\n${mainButtFunc}`)
     if (mainButtFunc == 'notif') {
@@ -61,6 +48,7 @@ function App() {
       // console.log('activatedNofit')
       successToast('activatedNofit')
     }
+    telegramApp.MainButton.onClick(oneAndOnlyOnclick)
   }
 
   const successToasterNotif = () => {
@@ -115,6 +103,20 @@ function App() {
       telegramApp.MainButton.onClick(oneAndOnlyOnclick)
     }
   }
+
+  useEffect(() => {
+    checkrunAndExpand()
+    if (telegramApp.platform != 'unknown') {
+      console.log(telegramApp.platform)
+      console.log(telegramApp)
+
+      telegramApp.MainButton.show()
+      telegramApp.MainButton.enable()
+    }
+    newFunctions()
+    changeMainButt() // Set the MainButton parameters
+    activateAll()
+  }, [])
 
   return (
     <div className={styles.App}>
