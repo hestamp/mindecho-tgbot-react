@@ -1,6 +1,8 @@
 .DialogOverlay {
   background-color: #00000099;
   position: fixed;
+  top: 0;
+
   inset: 0;
   z-index: 3333;
   animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -35,10 +37,7 @@
 }
 
 .maxparams {
-  height: 95%;
-  min-height: 95%;
   max-height: 95%;
-
   width: fit-content;
   max-width: 90vw;
   min-width: fit-content;

@@ -28,9 +28,7 @@ const MyModal = ({
           className={styles.DialogOverlay}
         />
         <Dialog.Content
-          className={`${styles.DialogContent} ${
-            fullscreen && styles.maxparams
-          }`}
+          className={`${styles.DialogContent} ${styles.maxparams}`}
         >
           {modalName ? (
             <Dialog.Title

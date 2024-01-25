@@ -23,6 +23,8 @@ function App() {
   const { checkrunAndExpand, user, userUnsafe, queryId, onToggleButton } =
     useTelegram()
 
+  const { mainButtFunc, uMainButtFunc } = useMyLogic()
+
   useEffect(() => {
     checkrunAndExpand()
     if (telegramApp) {
@@ -59,11 +61,6 @@ function App() {
     }
   }
 
-  const clickMyButt = () => {
-    telegramApp.MainButton.offClick(activateEchoCreator)
-    telegramApp.MainButton.onClick(successToasterNotif)
-  }
-
   const successToasterNotif = () => {
     successToast('button clicked')
   }
@@ -73,14 +70,9 @@ function App() {
     uEchoModal(true)
   }
 
-  const newFunction = () => {
-    telegramApp.MainButton.offClick(successToasterNotif)
-    telegramApp.MainButton.onClick(activateEchoCreator)
-  }
-
   const showHideMain = () => {
     if (telegramApp) {
-      if (telegramApp.MainButton.isActive) {
+      if (telegramApp.MainButton.isVisible) {
         telegramApp.MainButton.hide()
       } else {
         telegramApp.MainButton.show()
@@ -88,9 +80,17 @@ function App() {
     }
   }
 
-  const removeFuncs = () => {
-    telegramApp.MainButton.offClick(successToasterNotif)
-    telegramApp.MainButton.offClick(activateEchoCreator)
+  const oneAndOnlyOnclick = () => {
+    if (mainButtFunc == 'notif') {
+      successToasterNotif()
+    } else if (mainButtFunc == 'notif') {
+      activateEchoCreator()
+    } else {
+      activateAll()
+    }
+  }
+  const activateAll = () => {
+    telegramApp.MainButton.onClick(oneAndOnlyOnclick)
   }
 
   return (
@@ -103,14 +103,9 @@ function App() {
           <button className={styles.testbutt} onClick={changeMainButt}>
             My butt
           </button>
-          <button className={styles.testbutt} onClick={removeFuncs}>
-            Remove all of the func
-          </button>
-          <button className={styles.testbutt} onClick={clickMyButt}>
-            Toarter func
-          </button>
-          <button className={styles.testbutt} onClick={newFunction}>
-            Creating new Echo
+
+          <button className={styles.testbutt} onClick={activateAll}>
+            ONE FUNC ACTIVATOR
           </button>
           <button className={styles.testbutt} onClick={showHideMain}>
             Show hide butt
