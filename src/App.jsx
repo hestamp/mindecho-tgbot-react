@@ -35,6 +35,8 @@ function App() {
       telegramApp.MainButton.show()
       telegramApp.MainButton.enable()
     }
+    changeMainButt() // Set the MainButton parameters
+    activateAll()
   }, [])
 
   const { successToast } = useMyToaster()
@@ -47,18 +49,6 @@ function App() {
     navigate(guideCompleted ? '/main' : '/')
     // localStorage.setItem('guide', 'false')
   }, [navigate])
-
-  const changeMainButt = () => {
-    if (telegramApp?.MainButton) {
-      telegramApp.MainButton.setParams({
-        text: 'Create echo',
-        color: '#6fa1bff',
-        text_color: '#FFFFFF',
-        is_active: true,
-        is_visible: true,
-      })
-    }
-  }
 
   const newFunctions = () => {
     if (mainButtFunc == 'notif') {
@@ -96,8 +86,23 @@ function App() {
       activateAll()
     }
   }
+
+  const changeMainButt = () => {
+    if (telegramApp?.MainButton) {
+      telegramApp.MainButton.setParams({
+        text: 'Create echo', // Set your desired button text
+        color: '#6fa1bf', // Set your desired button color
+        text_color: '#FFFFFF', // Set your desired text color
+        is_active: true, // Set to true if button should be active
+        is_visible: true, // Set to true if button should be visible
+      })
+    }
+  }
+
   const activateAll = () => {
-    telegramApp.MainButton.onClick(oneAndOnlyOnclick)
+    if (telegramApp?.MainButton) {
+      telegramApp.MainButton.onClick(oneAndOnlyOnclick)
+    }
   }
 
   return (
