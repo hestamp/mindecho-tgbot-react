@@ -113,6 +113,11 @@ function App() {
     }
   }
 
+  const removeFuncs = () => {
+    telegramApp.MainButton.offClick(successToasterNotif)
+    telegramApp.MainButton.offClick(activateEchoCreator)
+  }
+
   return (
     <div className={styles.App}>
       <div className={styles.appBlock}>
@@ -122,6 +127,9 @@ function App() {
           </button>
           <button className={styles.testbutt} onClick={changeMainButt}>
             My butt
+          </button>
+          <button className={styles.testbutt} onClick={removeFuncs}>
+            Remove all of the func
           </button>
           <button className={styles.testbutt} onClick={clickMyButt}>
             Toarter func
@@ -135,6 +143,11 @@ function App() {
           {/* <UserComponent /> */}
           {telegramApp?.initData ? (
             <p>{JSON.stringify(telegramApp?.initData)} </p>
+          ) : (
+            <></>
+          )}
+          {telegramApp?.initDataUnsafe ? (
+            <p>{JSON.stringify(telegramApp?.initDataUnsafe)} </p>
           ) : (
             <></>
           )}
