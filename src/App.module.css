@@ -53,3 +53,12 @@
 .paddingblock p {
   color: gray;
 }
+
+.testbutt {
+  margin: 1rem;
+  background-color: var(--maincolor);
+  color: white;
+  font-weight: 500;
+  padding: 10px;
+  border-radius: 5px;
+}

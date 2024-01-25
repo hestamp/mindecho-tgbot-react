@@ -17,12 +17,16 @@ export const MyStorageProvider = ({ children }) => {
   //MainPage // Active item
   const [activeEcho, uActiveEcho] = useState(null)
 
+  //Toasters
   const successToast = (message) => toast.success(message)
   const dismissToast = () => toast.dismiss()
   const errorToast = (message) => toast.error(message)
 
+  //Telegram // Object and functions
+  const [myTelegram, uMyTelegram] = useState(null)
+
   const storageContextData = {
-    global: {},
+    telegram: { myTelegram, uMyTelegram },
     mainpage: {
       newEchoName,
       uNewEchoName,
@@ -68,4 +72,11 @@ export function useMyMainContext() {
     throw new Error('No Main C')
   }
   return mainpage
+}
+export function useMyTelegram() {
+  const { telegram } = useContext(StorageContext)
+  if (!telegram) {
+    throw new Error('No Telegram')
+  }
+  return telegram
 }

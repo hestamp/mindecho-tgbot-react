@@ -94,13 +94,11 @@ const MainPage = () => {
   }
 
   const goActiveTask = (index) => {
-    const reversedIndex = taskArr.length - 1 - index
-    const selectedTask = taskArr[reversedIndex]
+    // const reversedIndex = filteredTasks.length - 1 - index
+    const selectedTask = filteredTasks[index]
 
-    if (reversedIndex !== activeTask) {
-      setActiveTask(index)
-      setActiveTaskDates(selectedTask.dates)
-    }
+    setActiveTask(index)
+    setActiveTaskDates(selectedTask.dates)
   }
 
   const toggleMode = (param) => {
@@ -114,21 +112,22 @@ const MainPage = () => {
 
     let tasks = [...taskArr]
 
-    if (todayMode === 'today') {
-      tasks = tasks.filter((task) => {
-        console.log(task.dates)
-        task.dates.some((dateString) => dateString.startsWith(todayString))
-      })
-    } else if (todayMode === 'completed') {
-      tasks = tasks.filter((task) => task.completed)
-    }
+    // if (todayMode === 'today') {
+    //   tasks = tasks.filter((task) => {
+    //     console.log(task.dates)
+    //     task.dates.some((dateString) => dateString.startsWith(todayString))
+    //   })
+    // }
 
     if (todayMode === 'all') {
       tasks.sort((a, b) => {
-        if (a.completed && !b.completed) return -1
-        if (!a.completed && b.completed) return 1
+        if (a.lvl > b.level) return -1
+        if (a.lvl < b.level) return 1
         return 0
       })
+      tasks = tasks.filter((task) => !task.completed)
+    } else if (todayMode === 'completed') {
+      tasks = tasks.filter((task) => task.completed)
     }
 
     return tasks.reverse()

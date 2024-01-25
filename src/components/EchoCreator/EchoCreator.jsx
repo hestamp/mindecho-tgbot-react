@@ -38,8 +38,6 @@ const EchoCreator = () => {
       id: iddate,
     }
 
-    console.log(newTask)
-
     uTaskArr((prevTaskArr) => {
       const updatedTaskArr = [...prevTaskArr, newTask]
 

@@ -9,10 +9,8 @@ import { MyStorageProvider } from './storage/StorageContext'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <MyStorageProvider>
-    <React.StrictMode>
-      <Router>
-        <App />
-      </Router>
-    </React.StrictMode>
+    <Router>
+      <App />
+    </Router>
   </MyStorageProvider>
 )
