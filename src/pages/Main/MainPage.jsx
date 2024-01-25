@@ -6,7 +6,7 @@ import { BsThreeDots } from 'react-icons/bs'
 import MyCalendar from '../../components/Tools/MyCalendar/MyCalendar'
 import MyModal from '../../components/Tools/MyModal/MyModal'
 import EchoCreator from '../../components/EchoCreator/EchoCreator'
-import { useMyMainContext } from '../../storage/StorageContext'
+import { useMyLogic, useMyMainContext } from '../../storage/StorageContext'
 import MenuDropdown from '../../components/Tools/MenuDropdown/MenuDropdown'
 import EchoReader from '../../components/EchoReader/EchoReader'
 import EchoEditor from '../../components/EchoEditor/EchoEditor'
@@ -66,15 +66,14 @@ const taskArr1 = [
 
 const MainPage = () => {
   const {
-    echoModal,
-    uEchoModal,
     taskArr,
     uTaskArr,
-    crudMode,
-    uCrudMode,
+
     activeEcho,
     uActiveEcho,
   } = useMyMainContext()
+
+  const { crudMode, uCrudMode, echoModal, uEchoModal } = useMyLogic()
 
   useEffect(() => {
     uTaskArr(taskArr1)

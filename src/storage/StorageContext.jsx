@@ -10,12 +10,13 @@ export const MyStorageProvider = ({ children }) => {
   const [newEchoName, uNewEchoName] = useState('')
   const [newEchoContext, uNewEchoContext] = useState('')
 
-  //MainPage // Logic
-  const [echoModal, uEchoModal] = useState(false)
-  const [crudMode, uCrudMode] = useState(null)
-
   //MainPage // Active item
   const [activeEcho, uActiveEcho] = useState(null)
+
+  // Logic
+  const [echoModal, uEchoModal] = useState(false)
+  const [crudMode, uCrudMode] = useState(null)
+  const [mainButtFunc, uMainButtFunc] = useState(null)
 
   //Toasters
   const successToast = (message) => toast.success(message)
@@ -32,14 +33,18 @@ export const MyStorageProvider = ({ children }) => {
       uNewEchoName,
       newEchoContext,
       uNewEchoContext,
-      echoModal,
-      uEchoModal,
       taskArr,
       uTaskArr,
       activeEcho,
       uActiveEcho,
+    },
+    logic: {
+      echoModal,
+      uEchoModal,
       crudMode,
       uCrudMode,
+      mainButtFunc,
+      uMainButtFunc,
     },
     toaster: { successToast, errorToast },
   }
@@ -72,6 +77,13 @@ export function useMyMainContext() {
     throw new Error('No Main C')
   }
   return mainpage
+}
+export function useMyLogic() {
+  const { logic } = useContext(StorageContext)
+  if (!logic) {
+    throw new Error('No Logic Context')
+  }
+  return logic
 }
 export function useMyTelegram() {
   const { telegram } = useContext(StorageContext)

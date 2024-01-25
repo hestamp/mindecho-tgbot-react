@@ -2,10 +2,15 @@ import React, { useEffect, useState } from 'react'
 import styles from './EchoEditor.module.css'
 import MyInput from '../Tools/MyInput/MyInput'
 import MyTextarea from '../Tools/MyTextarea/MyTextarea'
-import { useMyMainContext, useMyToaster } from '../../storage/StorageContext'
+import {
+  useMyLogic,
+  useMyMainContext,
+  useMyToaster,
+} from '../../storage/StorageContext'
 const EchoEditor = () => {
-  const { taskArr, uTaskArr, uEchoModal, activeEcho, uActiveEcho } =
-    useMyMainContext()
+  const { taskArr, uTaskArr, activeEcho, uActiveEcho } = useMyMainContext()
+
+  const { uEchoModal } = useMyLogic()
 
   const [tempName, setTempName] = useState('')
   const [tempContent, setTempContent] = useState('')

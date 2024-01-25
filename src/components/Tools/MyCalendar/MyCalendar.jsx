@@ -15,7 +15,7 @@ const MyCalendar = ({
   activeStartDate,
   highlightDates,
 }) => {
-  const { echoModal, uEchoModal, taskArr, uTaskArr } = useMyMainContext()
+  const { taskArr, uTaskArr } = useMyMainContext()
 
   const renderTileClass = ({ date, view }) => {
     if (view === 'month') {

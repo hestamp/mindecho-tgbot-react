@@ -2,7 +2,11 @@ import React, { useState } from 'react'
 import styles from './EchoCreator.module.css'
 import MyInput from '../Tools/MyInput/MyInput'
 import MyTextarea from '../Tools/MyTextarea/MyTextarea'
-import { useMyMainContext, useMyToaster } from '../../storage/StorageContext'
+import {
+  useMyLogic,
+  useMyMainContext,
+  useMyToaster,
+} from '../../storage/StorageContext'
 const EchoCreator = () => {
   const {
     newEchoName,
@@ -10,9 +14,9 @@ const EchoCreator = () => {
     uNewEchoContext,
     newEchoContext,
     uTaskArr,
-    echoModal,
-    uEchoModal,
   } = useMyMainContext()
+
+  const { echoModal, uEchoModal } = useMyLogic()
 
   const { successToast } = useMyToaster()
 

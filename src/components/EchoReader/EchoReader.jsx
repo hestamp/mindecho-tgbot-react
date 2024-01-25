@@ -2,7 +2,11 @@ import React, { useState } from 'react'
 import styles from './EchoReader.module.css'
 import MyInput from '../Tools/MyInput/MyInput'
 import MyTextarea from '../Tools/MyTextarea/MyTextarea'
-import { useMyMainContext, useMyToaster } from '../../storage/StorageContext'
+import {
+  useMyLogic,
+  useMyMainContext,
+  useMyToaster,
+} from '../../storage/StorageContext'
 import { renderContentWithLineBreaks } from '../../utils/textUtils'
 const EchoReader = () => {
   const {
@@ -11,11 +15,12 @@ const EchoReader = () => {
     uNewEchoContext,
     newEchoContext,
     uTaskArr,
-    echoModal,
-    uEchoModal,
+
     activeEcho,
     uActiveEcho,
   } = useMyMainContext()
+
+  const { echoModal, uEchoModal } = useMyLogic()
 
   const { successToast } = useMyToaster()
 

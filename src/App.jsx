@@ -9,6 +9,7 @@ import MainPage from './pages/Main/MainPage'
 import OneEchoPage from './pages/OneEcho/OneEchoPage'
 import { telegramApp, useTelegram } from './hooks/useTelegram'
 import {
+  useMyLogic,
   useMyMainContext,
   useMyTelegram,
   useMyToaster,
@@ -24,43 +25,17 @@ function App() {
 
   useEffect(() => {
     checkrunAndExpand()
-    if (user) {
-      console.log(user)
-    }
-    if (userUnsafe) {
-      console.log(userUnsafe)
-    }
-    if (queryId) {
-      console.log(queryId)
-    }
-
     if (telegramApp) {
-      console.log('initData:', telegramApp?.initData)
-      console.log('initDataUnsafe:', telegramApp?.initDataUnsafe)
-      console.log('version:', telegramApp?.version)
-      console.log('platform:', telegramApp?.platform)
-      console.log('colorScheme:', telegramApp?.colorScheme)
-      console.log('themeParams:', telegramApp?.themeParams)
-      console.log('isExpanded:', telegramApp?.isExpanded)
-      console.log('viewportHeight:', telegramApp?.viewportHeight)
-      console.log('viewportStableHeight:', telegramApp?.viewportStableHeight)
-      console.log('headerColor:', telegramApp?.headerColor)
-      console.log('backgroundColor:', telegramApp?.backgroundColor)
-      console.log(
-        'isClosingConfirmationEnabled:',
-        telegramApp?.isClosingConfirmationEnabled
-      )
-      console.log('BackButton:', telegramApp?.BackButton)
-      console.log('MainButton:', telegramApp?.MainButton)
-      console.log('SettingsButton:', telegramApp?.SettingsButton)
-      console.log('HapticFeedback:', telegramApp?.HapticFeedback)
-      console.log('CloudStorage:', telegramApp?.CloudStorage)
+      console.log(telegramApp)
+      // changeMainButt()
+      telegramApp.MainButton.show()
+      telegramApp.MainButton.enable()
     }
   }, [])
 
   const { successToast } = useMyToaster()
 
-  const { uEchoModal, uCrudMode } = useMyMainContext()
+  const { uEchoModal, uCrudMode } = useMyLogic()
 
   useEffect(() => {
     const guideCompleted = localStorage.getItem('guide') === 'true'
@@ -69,7 +44,7 @@ function App() {
   }, [navigate])
 
   const changeMainButt = () => {
-    if (telegramApp) {
+    if (telegramApp?.MainButton) {
       telegramApp.MainButton.hide()
 
       telegramApp.MainButton.setParams({
@@ -146,16 +121,18 @@ function App() {
           ) : (
             <></>
           )}
-          {telegramApp?.initDataUnsafe ? (
-            <p>{JSON.stringify(telegramApp?.initDataUnsafe)} </p>
-          ) : (
-            <></>
-          )}
-          {telegramApp ? (
-            <p>Platform telegram: {telegramApp.platform}</p>
-          ) : (
-            <></>
-          )}
+          <div className={styles.maininfo}>
+            {telegramApp?.initDataUnsafe ? (
+              <p>{JSON.stringify(telegramApp?.initDataUnsafe)} </p>
+            ) : (
+              <></>
+            )}
+            {telegramApp ? (
+              <p>Platform telegram: {telegramApp.platform}</p>
+            ) : (
+              <></>
+            )}
+          </div>
           <div className={styles.paddingblock}>
             <h4>Good to see you again, Tom!</h4>
             <p>Dont forget to repeat learned echos</p>
